@@ -7,6 +7,22 @@ directories. It provides implementations of [:cd](https://neovim.io/doc/user/edi
 file which can be retrieved later either as a list of strings or through a
 [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) picker.
 
+## Motivation
+I work in a large monorepo and change my working directory depending on what part of the codebase
+I'm looking at to give my LSP (`gopls`) a chance and to improve the usefulness of fuzzy finding
+files. I want to change the current working directory back to a previously used one without having
+to configure a "project" or "workspace" beforehand. This requirement is not satisfied (as far as I
+can tell) by existing similar plugins:
+- [project.nvim](https://github.com/ahmedkhalf/project.nvim)
+- [telescope-project.nvim](https://github.com/nvim-telescope/telescope-project.nvim)
+- [workspaces.nvim](https://github.com/natecraddock/workspaces.nvim)
+- [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
+olddirs.nvim is very lightweight and doesn't provide any niceties (out of the box*) like some of the
+above plugins, it's literally just `:oldfiles` for directories.
+
+\* I say "out of the box" since some features like the searching or browsing of files inside a
+previous directory can be implemented by adding actions to the olddirs.nvim Telescope picker.
+
 ## Documentation
 
 Documentation can be found in [doc/olddirs.txt](doc/olddirs.txt) or by running `:help olddirs.nvim`.
