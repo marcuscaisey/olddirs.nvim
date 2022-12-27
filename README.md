@@ -17,6 +17,7 @@ can tell) by existing similar plugins:
 - [telescope-project.nvim](https://github.com/nvim-telescope/telescope-project.nvim)
 - [workspaces.nvim](https://github.com/natecraddock/workspaces.nvim)
 - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
+
 olddirs.nvim is very lightweight and doesn't provide any niceties (out of the box*) like some of the
 above plugins, it's literally just `:oldfiles` for directories.
 
