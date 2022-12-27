@@ -37,7 +37,7 @@ end
 ---@param opts table options
 ---  * {file} (string): file to store the olddirs in
 ---    (default ~/.local/share/nvim/olddirs)
----  * {limit} (number): max number of paths to store in the olddirs file
+---  * {limit} (number): max number of dirs to store in the olddirs file
 ---    (default 100)
 olddirs.setup = function(opts)
   vim.tbl_extend('force', config, opts)
@@ -61,7 +61,8 @@ olddirs.tcd = function(path)
   cd_and_save_path(vim.cmd.tcd, path)
 end
 
----Returns the paths from the olddirs file if it exists, otherwise an empty table.
+---Returns the directories from the olddirs file if it exists, otherwise an
+---empty table. Directories are ordered in most recently used order.
 ---@return table
 olddirs.get = function()
   local f = io.open(config.file, 'r')
