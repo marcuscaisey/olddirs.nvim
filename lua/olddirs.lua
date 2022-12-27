@@ -32,7 +32,7 @@ local cd_and_save_path = function(cd_func, path)
   f:close()
 end
 
----Configure olddirs. This is only required if you want to change the
+---Configure olddirs.nvim. This is only required if you want to change the
 ---defaults.
 ---@param opts table options
 ---  * {file} (string): file to store the olddirs in

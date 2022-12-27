@@ -3,7 +3,7 @@ A wrapper around |:cd|, |:lcd|, |:tcd| which stores the changed to directories
 in an olddirs file so that they can be retrieved later.
 
 olddirs.setup({opts})                                            *olddirs.setup*
-    Configure olddirs. This is only required if you want to change the
+    Configure olddirs.nvim. This is only required if you want to change the
     defaults.
 
     Parameters: ~
