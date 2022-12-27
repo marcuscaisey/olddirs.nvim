@@ -8,7 +8,7 @@ local config = require('telescope.config').values
 local olddirs = require('olddirs')
 
 local default_config = {
-  cd_cmd = olddirs.lcd,
+  path_callback = olddirs.lcd,
 }
 
 local picker = function(opts)
@@ -22,7 +22,7 @@ local picker = function(opts)
   local cd = function(prompt_bufnr)
     local entry = state.get_selected_entry()
     actions.close(prompt_bufnr)
-    opts.cd_cmd(entry.path)
+    opts.path_callback(entry.path)
   end
 
   pickers
