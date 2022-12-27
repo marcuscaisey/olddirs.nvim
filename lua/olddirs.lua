@@ -1,7 +1,23 @@
 ---@brief [[
 ---*olddirs.nvim*
----A wrapper around |:cd|, |:lcd|, |:tcd| which stores the changed to directories
----in an olddirs file so that they can be retrieved later.
+---olddirs.nvim is like |:oldfiles|, but for directories.
+---@brief ]]
+
+---@toc olddirs-contents
+
+---@mod olddirs-intro INTRODUCTION
+---@brief [[
+---olddirs.nvim provides implementations of |:cd|, |:lcd|, and |:tcd| which store
+---the directories in an olddirs file which can be retrieved later either as a
+---list of strings or through a |telescope.nvim| picker.
+---@brief ]]
+
+---@mod olddirs OLDDIRS
+---@brief [[
+---The olddirs.nvim Lua API can be accessed by importing the `oldirs` module with
+--->lua
+---  local olddirs = require('olddirs')
+---<
 ---@brief ]]
 
 local olddirs = {}
@@ -62,8 +78,8 @@ olddirs.tcd = function(path)
 end
 
 ---Returns the directories from the olddirs file if it exists, otherwise an
----empty table. Directories are returned in most recently used order.
----@return table
+---empty table.
+---@return table Old directories in most recently used order.
 olddirs.get = function()
   local f = io.open(config.file, 'r')
   if not f then
@@ -76,5 +92,60 @@ olddirs.get = function()
   f:close()
   return dirs
 end
+
+---@mod olddirs-telescope TELESCOPE
+---@brief [[
+---Old directories can also be accessed through the |telescope.nvim| picker. To
+---do so, you must first load the extension:
+--->lua
+---  telescope.load_extension('olddirs')
+---<
+---
+---To open the picker, call `telescope.extensions.olddirs.picker({opts})`. `opts`
+---can include generic Telescope picker options.
+---
+---Example mapping:
+--->lua
+---  vim.keymap.set('n', '<leader>od', telescope.extensions.olddirs.picker)
+---<
+---
+---To configure the picker, include the configuration in a call to
+---`telescope.setup({opts})`:
+--->lua
+---  telescope.setup({
+---    extensions = {
+---      olddirs = {
+---        path_callback = olddirs.lcd,
+---        ...
+---      },
+---    },
+---  })
+---<
+---`path_callback({path})` is the function which will be called with the selected
+---directory.
+---
+---This above configuration is the default, so if you're happy with it then
+---there's no need to include it in a call to `telescope.setup({opts})`.
+---
+---
+---You can also provide any generic picker config in this section. For example:
+--->lua
+---  telescope.setup({
+---    extensions = {
+---      olddirs = {
+---        path_callback = olddirs.cd,
+---        layout_config = {
+---          width = 0.6,
+---          height = 0.9,
+---        },
+---        previewer = false,
+---        path_display = function(_, path)
+---          return path:gsub('^' .. os.getenv('HOME'), '~')
+---        end,
+---      },
+---    },
+---  })
+---<
+---@brief ]]
 
 return olddirs

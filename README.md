@@ -59,13 +59,13 @@ Replace usage of the builtin Vimscript commands with the provided Lua functions.
 
 #### Telescope
 
-> :information_source: The olddirs Telescope extension must be loaded before you can use the picker,
-> see the [Telescope configuration](#telescope-1) section.
+> :information_source: The olddirs.nvim Telescope extension must be loaded before you can use the
+> picker, see the [Telescope configuration](#telescope-1) section.
 
 The old directories can also be accessed using the Telescope picker
 `telescope.extensions.olddirs.picker({opts})` which works just like the [builtin oldfiles
-picker](https://github.com/nvim-telescope/telescope.nvim#vim-pickers). `opts` will be passed to the
-Telescope picker.
+picker](https://github.com/nvim-telescope/telescope.nvim#vim-pickers). `opts` can include generic
+Telescope picker options.
 
 Example mapping:
 
@@ -94,7 +94,7 @@ olddirs.setup({
 
 ### Telescope
 
-To use the olddirs picker, you must load the Telescope extension:
+To use the olddirs.nvim Telescope picker, you must load the extension:
 
 ```lua
 telescope.load_extension('olddirs')
