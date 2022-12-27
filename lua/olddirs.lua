@@ -62,7 +62,7 @@ olddirs.tcd = function(path)
 end
 
 ---Returns the directories from the olddirs file if it exists, otherwise an
----empty table. Directories are ordered in most recently used order.
+---empty table. Directories are returned in most recently used order.
 ---@return table
 olddirs.get = function()
   local f = io.open(config.file, 'r')
