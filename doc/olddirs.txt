@@ -1,0 +1,45 @@
+*olddirs.nvim*
+A wrapper around |:cd|, |:lcd|, |:tcd| which stores the changed to directories
+in an olddirs file so that they can be retrieved later.
+
+olddirs.setup({opts})                                            *olddirs.setup*
+    Configure olddirs. This is only required if you want to change the
+    defaults.
+
+    Parameters: ~
+        {opts} (table) options
+          * {file} (string): file to store the olddirs in
+            (default ~/.local/share/nvim/olddirs)
+          * {limit} (number): max number of paths to store in the olddirs file
+            (default 100)
+
+
+olddirs.cd({path})                                                  *olddirs.cd*
+    Wrapper around |:cd| which saves {path} to the olddirs file.
+
+    Parameters: ~
+        {path} (string) The target directory.
+
+
+olddirs.lcd({path})                                                *olddirs.lcd*
+    Wrapper around |:lcd| which saves {path} to the olddirs file.
+
+    Parameters: ~
+        {path} (string) The target directory.
+
+
+olddirs.tcd({path})                                                *olddirs.tcd*
+    Wrapper around |:tcd| which saves {path} to the olddirs file.
+
+    Parameters: ~
+        {path} (string) The target directory.
+
+
+olddirs.get()                                                      *olddirs.get*
+    Returns the paths from the olddirs file if it exists, otherwise an empty table.
+
+    Returns: ~
+        (table)
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
