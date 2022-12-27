@@ -36,11 +36,11 @@ end
 ---defaults.
 ---@param opts table options
 ---  * {file} (string): file to store the olddirs in
----    (default ~/.local/share/nvim/olddirs)
+---    Default: stdpath('data') .. '/olddirs'
 ---  * {limit} (number): max number of dirs to store in the olddirs file
----    (default 100)
+---    Default: 100
 olddirs.setup = function(opts)
-  vim.tbl_extend('force', config, opts)
+  config = vim.tbl_extend('force', config, opts)
 end
 
 ---Wrapper around |:cd| which saves {path} to the olddirs file.
