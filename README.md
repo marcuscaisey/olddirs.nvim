@@ -89,6 +89,7 @@ vim.keymap.set('n', '<leader>od', telescope.extensions.olddirs.picker)
 > then there's no need to call `olddirs.setup`.
 
 ```lua
+local olddirs = require('olddirs')
 olddirs.setup({
   file = vim.fn.stdpath('data') .. '/olddirs',
   limit = 100,
@@ -114,6 +115,7 @@ To configure the picker:
 > then there's no need to provide it to `telescope.setup`.
 
 ```lua
+local telescope = require('telescope')
 telescope.setup({
   extensions = {
     olddirs = {
@@ -131,6 +133,7 @@ telescope.setup({
 You can also provide any generic picker config in this section. For example:
 
 ```lua
+local telescope = require('telescope')
 telescope.setup({
   extensions = {
     olddirs = {
