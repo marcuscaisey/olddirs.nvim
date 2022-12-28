@@ -7,9 +7,10 @@
 
 ---@mod olddirs-intro INTRODUCTION
 ---@brief [[
----olddirs.nvim provides implementations of |:cd|, |:lcd|, and |:tcd| which store
----the directories in an olddirs file which can be retrieved later either as a
----list of strings or through a |telescope.nvim| picker.
+---olddirs.nvim provides |autocommand|s which store the current directory in an
+---olddirs file when Neovim starts or the directory is changed with |:cd|,
+---|:lcd|, or |:tcd|. The old directories can be retrieved as a list of strings
+---or through a |telescope.nvim| picker.
 ---@brief ]]
 
 ---@mod olddirs OLDDIRS
@@ -20,33 +21,9 @@
 ---<
 ---@brief ]]
 
+local config = require('olddirs._config')
+
 local olddirs = {}
-
-local config = {
-  file = vim.fn.stdpath('data') .. '/olddirs',
-  limit = 100,
-}
-
-local cd_and_save_path = function(cd_func, path)
-  path = vim.fs.normalize(path)
-  cd_func(vim.fn.fnameescape(path))
-
-  local paths = { path }
-  local f = io.open(config.file, 'r')
-  if f then
-    for line in f:lines() do
-      if line ~= path then
-        table.insert(paths, line)
-      end
-    end
-    f:close()
-  end
-
-  f = assert(io.open(config.file, 'w+'))
-  local file_content = table.concat(paths, '\n', 1, math.min(config.limit, #paths))
-  assert(f:write(file_content))
-  f:close()
-end
 
 ---Configure olddirs.nvim. This is only required if you want to change the
 ---defaults.
@@ -56,32 +33,14 @@ end
 ---  * {limit} (number): max number of dirs to store in the olddirs file
 ---    Default: 100
 olddirs.setup = function(opts)
-  config = vim.tbl_extend('force', config, opts)
-end
-
----Wrapper around |:cd| which saves {path} to the olddirs file.
----@param path string The target directory.
-olddirs.cd = function(path)
-  cd_and_save_path(vim.cmd.cd, path)
-end
-
----Wrapper around |:lcd| which saves {path} to the olddirs file.
----@param path string The target directory.
-olddirs.lcd = function(path)
-  cd_and_save_path(vim.cmd.lcd, path)
-end
-
----Wrapper around |:tcd| which saves {path} to the olddirs file.
----@param path string The target directory.
-olddirs.tcd = function(path)
-  cd_and_save_path(vim.cmd.tcd, path)
+  config.update(opts)
 end
 
 ---Returns the directories from the olddirs file if it exists, otherwise an
 ---empty table.
----@return table Old directories in most recently used order.
+---@return string[] directories directories in most recently used order
 olddirs.get = function()
-  local f = io.open(config.file, 'r')
+  local f = io.open(config.get().file, 'r')
   if not f then
     return {}
   end
@@ -115,7 +74,7 @@ end
 ---  telescope.setup({
 ---    extensions = {
 ---      olddirs = {
----        path_callback = olddirs.lcd,
+---        path_callback = vim.cmd.lcd,
 ---        ...
 ---      },
 ---    },
@@ -133,7 +92,7 @@ end
 ---  telescope.setup({
 ---    extensions = {
 ---      olddirs = {
----        path_callback = olddirs.cd,
+---        path_callback = vim.cmd.cd,
 ---        layout_config = {
 ---          width = 0.6,
 ---          height = 0.9,

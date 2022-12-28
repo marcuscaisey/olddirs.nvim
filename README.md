@@ -1,25 +1,28 @@
 # olddirs.nvim
 
 olddirs.nvim is like [:oldfiles](https://neovim.io/doc/user/starting.html#%3Aoldfiles), but for
-directories. It provides implementations of [:cd](https://neovim.io/doc/user/editing.html#%3Acd),
-[:lcd](https://neovim.io/doc/user/editing.html#%3Alcd), and
-[:tcd](https://neovim.io/doc/user/editing.html#%3Atcd) which store the directories in an olddirs
-file which can be retrieved later either as a list of strings or through a
-[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) picker.
+directories. It provides autocommands which store the current directory in an olddirs file when
+Neovim starts or the directory is changed with [:cd](https://neovim.io/doc/user/editing.html#%3Acd),
+[:lcd](https://neovim.io/doc/user/editing.html#%3Alcd), or
+[:tcd](https://neovim.io/doc/user/editing.html#%3Atcd). The old directories can be retrieved as a
+list of strings or through a [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+picker.
 
 ## Motivation
+
 I work in a large monorepo and change my working directory depending on what part of the codebase
 I'm looking at to give my LSP (`gopls`) a chance and to improve the usefulness of fuzzy finding
 files. I want to change the current working directory back to a previously used one without having
 to configure a "project" or "workspace" beforehand. This requirement is not satisfied (as far as I
 can tell) by existing similar plugins:
+
 - [project.nvim](https://github.com/ahmedkhalf/project.nvim)
 - [telescope-project.nvim](https://github.com/nvim-telescope/telescope-project.nvim)
 - [workspaces.nvim](https://github.com/natecraddock/workspaces.nvim)
 - [neovim-session-manager](https://github.com/Shatur/neovim-session-manager)
 
-olddirs.nvim is very lightweight and doesn't provide any niceties (out of the box*) like some of the
-above plugins, it's literally just `:oldfiles` for directories.
+olddirs.nvim is very lightweight and doesn't provide any niceties (out of the box\*) like some of
+the above plugins, it's literally just `:oldfiles` for directories.
 
 \* I say "out of the box" since some features like the searching or browsing of files inside a
 previous directory can be implemented by adding actions to the olddirs.nvim Telescope picker.
@@ -52,29 +55,17 @@ call dein#add('marcuscaisey/olddirs.nvim')
 
 ## Usage
 
-A Lua API is provided which can be accessed by importing the `olddirs` module:
+### olddirs.get
+
+The Lua API can be accessed by importing the `olddirs` module:
 
 ```lua
 local olddirs = require('olddirs')
 ```
 
-### Changing directories
-
-Replace usage of the builtin Vimscript commands with the provided Lua functions.
-
-| Original      | Replacement           |
-| ------------- | --------------------- |
-| `:cd {path}`  | `olddirs.cd({path})`  |
-| `:lcd {path}` | `olddirs.lcd({path})` |
-| `:tcd {path}` | `olddirs.tcd({path})` |
-
-### Accessing old directories
-
-#### olddirs.get
-
 `olddirs.get()` returns the directories from the olddirs file in most recently used order.
 
-#### Telescope
+### Telescope
 
 > :information_source: The olddirs.nvim Telescope extension must be loaded before you can use the
 > picker, see the [Telescope configuration](#telescope-1) section.
@@ -126,7 +117,7 @@ To configure the picker:
 telescope.setup({
   extensions = {
     olddirs = {
-      path_callback = olddirs.lcd,
+      path_callback = vim.cmd.lcd,
       ...
     },
   },

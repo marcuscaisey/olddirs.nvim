@@ -8,7 +8,7 @@ local config = require('telescope.config').values
 local olddirs = require('olddirs')
 
 local default_config = {
-  path_callback = olddirs.lcd,
+  path_callback = vim.cmd.lcd,
 }
 
 local picker = function(opts)

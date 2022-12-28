@@ -11,9 +11,10 @@ TELESCOPE···································�
 ================================================================================
 INTRODUCTION                                                     *olddirs-intro*
 
-olddirs.nvim provides implementations of |:cd|, |:lcd|, and |:tcd| which store
-the directories in an olddirs file which can be retrieved later either as a
-list of strings or through a |telescope.nvim| picker.
+olddirs.nvim provides |autocommand|s which store the current directory in an
+olddirs file when Neovim starts or the directory is changed with |:cd|,
+|:lcd|, or |:tcd|. The old directories can be retrieved as a list of strings
+or through a |telescope.nvim| picker.
 
 ================================================================================
 OLDDIRS                                                                *olddirs*
@@ -35,33 +36,12 @@ olddirs.setup({opts})                                            *olddirs.setup*
             Default: 100
 
 
-olddirs.cd({path})                                                  *olddirs.cd*
-    Wrapper around |:cd| which saves {path} to the olddirs file.
-
-    Parameters: ~
-        {path} (string) The target directory.
-
-
-olddirs.lcd({path})                                                *olddirs.lcd*
-    Wrapper around |:lcd| which saves {path} to the olddirs file.
-
-    Parameters: ~
-        {path} (string) The target directory.
-
-
-olddirs.tcd({path})                                                *olddirs.tcd*
-    Wrapper around |:tcd| which saves {path} to the olddirs file.
-
-    Parameters: ~
-        {path} (string) The target directory.
-
-
 olddirs.get()                                                      *olddirs.get*
     Returns the directories from the olddirs file if it exists, otherwise an
     empty table.
 
     Returns: ~
-        (table) directories in most recently used order.
+        (string[]) directories in most recently used order
 
 
 ================================================================================
@@ -87,7 +67,7 @@ To configure the picker, include the configuration in a call to
   telescope.setup({
     extensions = {
       olddirs = {
-        path_callback = olddirs.lcd,
+        path_callback = vim.cmd.lcd,
         ...
       },
     },
@@ -105,7 +85,7 @@ You can also provide any generic picker config in this section. For example:
   telescope.setup({
     extensions = {
       olddirs = {
-        path_callback = olddirs.cd,
+        path_callback = vim.cmd.cd,
         layout_config = {
           width = 0.6,
           height = 0.9,
