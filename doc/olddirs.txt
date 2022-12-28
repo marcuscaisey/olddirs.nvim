@@ -19,21 +19,29 @@ or through a |telescope.nvim| picker.
 ================================================================================
 OLDDIRS                                                                *olddirs*
 
-The olddirs.nvim Lua API can be accessed by importing the `oldirs` module with
->lua
-  local olddirs = require('olddirs')
-<
+OlddirsConfig                                                    *OlddirsConfig*
+
+    Fields: ~
+        {file} (string) File to store the old directories in.
+        {limit} (number) Max number of directories to store in the olddirs file.
+
 
 olddirs.setup({opts})                                            *olddirs.setup*
-    Configure olddirs.nvim. This is only required if you want to change the
-    defaults.
+    Configures olddirs.nvim.
+    This is only required if you want to change the defaults which are shown
+    below.
 
     Parameters: ~
-        {opts} (table) options
-          * {file} (string): file to store the olddirs in
-            Default: stdpath('data') .. '/olddirs'
-          * {limit} (number): max number of dirs to store in the olddirs file
-            Default: 100
+        {opts} (OlddirsConfig)
+
+    Usage: ~
+>lua
+        local olddirs = require('olddirs')
+        olddirs.setup({
+          file = vim.fn.stdpath('data') .. '/olddirs',
+          limit = 100,
+        })
+<
 
 
 olddirs.get()                                                      *olddirs.get*
@@ -42,6 +50,12 @@ olddirs.get()                                                      *olddirs.get*
 
     Returns: ~
         (string[]) directories in most recently used order
+
+    Usage: ~
+>lua
+        local olddirs = require('olddirs')
+        vim.pretty_print(olddirs.get())
+<
 
 
 ================================================================================
@@ -76,7 +90,7 @@ To configure the picker, include the configuration in a call to
 `path_callback({path})` is the function which will be called with the selected
 directory.
 
-This above configuration is the default, so if you're happy with it then
+The above configuration is the default, so if you're happy with it then
 there's no need to include it in a call to `telescope.setup({opts})`.
 
 

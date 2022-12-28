@@ -14,31 +14,37 @@
 ---@brief ]]
 
 ---@mod olddirs OLDDIRS
----@brief [[
----The olddirs.nvim Lua API can be accessed by importing the `oldirs` module with
---->lua
----  local olddirs = require('olddirs')
----<
----@brief ]]
 
 local config = require('olddirs._config')
 
 local olddirs = {}
 
----Configure olddirs.nvim. This is only required if you want to change the
----defaults.
----@param opts table options
----  * {file} (string): file to store the olddirs in
----    Default: stdpath('data') .. '/olddirs'
----  * {limit} (number): max number of dirs to store in the olddirs file
----    Default: 100
+---@class OlddirsConfig
+---@field file string File to store the old directories in.
+---@field limit number Max number of directories to store in the olddirs file.
+
+---Configures olddirs.nvim.
+---This is only required if you want to change the defaults which are shown
+---below.
+---@param opts OlddirsConfig
+---@usage [[
+---local olddirs = require('olddirs')
+---olddirs.setup({
+---  file = vim.fn.stdpath('data') .. '/olddirs',
+---  limit = 100,
+---})
+---@usage ]]
 olddirs.setup = function(opts)
-  config.update(opts)
+  config.set(opts)
 end
 
 ---Returns the directories from the olddirs file if it exists, otherwise an
 ---empty table.
 ---@return string[] directories directories in most recently used order
+---@usage [[
+---local olddirs = require('olddirs')
+---vim.pretty_print(olddirs.get())
+---@usage ]]
 olddirs.get = function()
   local f = io.open(config.get().file, 'r')
   if not f then
@@ -83,7 +89,7 @@ end
 ---`path_callback({path})` is the function which will be called with the selected
 ---directory.
 ---
----This above configuration is the default, so if you're happy with it then
+---The above configuration is the default, so if you're happy with it then
 ---there's no need to include it in a call to `telescope.setup({opts})`.
 ---
 ---
