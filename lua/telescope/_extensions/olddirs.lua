@@ -38,7 +38,9 @@ local picker = function(opts)
         map({ 'i', 'n' }, '<cr>', function(prompt_bufnr)
           local dir = state.get_selected_entry().value
           actions.close(prompt_bufnr)
-          opts.selected_dir_callback(dir)
+          -- allow previous name path_callback for backwards compatibility
+          local selected_dir_callback = opts.path_callback or opts.selected_dir_callback
+          selected_dir_callback(dir)
         end)
         return true
       end,
