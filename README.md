@@ -126,7 +126,7 @@ vim.keymap.set('n', '<leader>ogd', function()
 end)
 ```
 
-#### Providing attach_mappings
+#### Providing `attach_mappings`
 
 ```lua
 local telescope = require('telescope')
