@@ -82,7 +82,7 @@ To configure the picker, include the configuration in a call to
   telescope.setup({
     extensions = {
       olddirs = {
-        path_callback = vim.cmd.lcd,
+        selected_dir_callback = vim.cmd.lcd,
         ...
       },
     },

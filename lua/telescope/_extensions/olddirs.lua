@@ -8,7 +8,7 @@ local utils = require('telescope.utils')
 local olddirs = require('olddirs')
 
 local default_config = {
-  path_callback = vim.cmd.lcd,
+  selected_dir_callback = vim.cmd.lcd,
 }
 
 local picker = function(opts)
@@ -38,7 +38,7 @@ local picker = function(opts)
         map({ 'i', 'n' }, '<cr>', function(prompt_bufnr)
           local dir = state.get_selected_entry().value
           actions.close(prompt_bufnr)
-          opts.path_callback(dir)
+          opts.selected_dir_callback(dir)
         end)
         return true
       end,

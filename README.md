@@ -118,16 +118,16 @@ local telescope = require('telescope')
 telescope.setup({
   extensions = {
     olddirs = {
-      path_callback = vim.cmd.lcd,
+      selected_dir_callback = vim.cmd.lcd,
       ...
     },
   },
 })
 ```
 
-| Key             | Type           | Description                                                    |
-| --------------- | -------------- | -------------------------------------------------------------- |
-| `path_callback` | `func({path})` | The function which will be called with the selected directory. |
+| Key                     | Type          | Description                                                    |
+| ----------------------- | ------------- | -------------------------------------------------------------- |
+| `selected_dir_callback` | `func({dir})` | The function which will be called with the selected directory. |
 
 You can also provide any generic picker config in this section. For example:
 
@@ -136,7 +136,7 @@ local telescope = require('telescope')
 telescope.setup({
   extensions = {
     olddirs = {
-      path_callback = olddirs.cd,
+      selected_dir_callback = vim.cmd.cd,
       layout_config = {
         width = 0.6,
         height = 0.9,

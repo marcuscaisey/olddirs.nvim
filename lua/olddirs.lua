@@ -81,13 +81,13 @@ end
 ---  telescope.setup({
 ---    extensions = {
 ---      olddirs = {
----        path_callback = vim.cmd.lcd,
+---        selected_dir_callback = vim.cmd.lcd,
 ---        ...
 ---      },
 ---    },
 ---  })
 ---<
----`path_callback({path})` is the function which will be called with the selected
+---`selected_dir_callback({dir})` is the function which will be called with the selected
 ---directory.
 ---
 ---The above configuration is the default, so if you're happy with it then
@@ -99,7 +99,7 @@ end
 ---  telescope.setup({
 ---    extensions = {
 ---      olddirs = {
----        path_callback = vim.cmd.cd,
+---        selected_dir_callback = vim.cmd.cd,
 ---        layout_config = {
 ---          width = 0.6,
 ---          height = 0.9,
