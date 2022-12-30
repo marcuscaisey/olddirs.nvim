@@ -66,8 +66,9 @@ end
 ---  telescope.load_extension('olddirs')
 ---<
 ---
----To open the picker, call `telescope.extensions.olddirs.picker({opts})`. `opts`
----can include generic Telescope picker options.
+---To open the picker, call `telescope.extensions.olddirs.picker({opts})`.
+---`{opts}` can include regular Telescope options like `layout_config` and
+---`path_display`.
 ---
 ---Example mapping:
 --->lua

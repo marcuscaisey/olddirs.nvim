@@ -71,9 +71,8 @@ local olddirs = require('olddirs')
 > picker, see the [Telescope configuration](#telescope-1) section.
 
 The old directories can also be accessed using the Telescope picker
-`telescope.extensions.olddirs.picker({opts})` which works just like the [builtin oldfiles
-picker](https://github.com/nvim-telescope/telescope.nvim#vim-pickers). `opts` can include generic
-Telescope picker options.
+`telescope.extensions.olddirs.picker({opts})`. `{opts}` can include regular Telescope options like
+`layout_config` and `path_display`.
 
 Example mapping:
 
