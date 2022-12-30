@@ -19,12 +19,6 @@ local picker = function(opts)
     return path ~= current_cwd
   end, olddirs.get())
 
-  local cd = function(prompt_bufnr)
-    local entry = state.get_selected_entry()
-    actions.close(prompt_bufnr)
-    opts.path_callback(entry.path)
-  end
-
   pickers
     .new(opts, {
       prompt_title = 'Olddirs',
@@ -35,8 +29,11 @@ local picker = function(opts)
       sorter = config.file_sorter(opts),
       previewer = config.file_previewer(opts),
       attach_mappings = function(_, map)
-        map('i', '<cr>', cd)
-        map('n', '<cr>', cd)
+        map({ 'i', 'n' }, '<cr>', function(prompt_bufnr)
+          local entry = state.get_selected_entry()
+          actions.close(prompt_bufnr)
+          opts.path_callback(entry.path)
+        end)
         return true
       end,
     })
