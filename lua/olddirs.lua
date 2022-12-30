@@ -70,11 +70,6 @@ end
 ---`{opts}` can include regular Telescope options like `layout_config` and
 ---`path_display`.
 ---
----Example mapping:
---->lua
----  vim.keymap.set('n', '<leader>od', telescope.extensions.olddirs.picker)
----<
----
 ---To configure the picker, include the configuration in a call to
 ---`telescope.setup({opts})`:
 --->lua
@@ -111,6 +106,76 @@ end
 ---      },
 ---    },
 ---  })
+---<
+---@brief ]]
+
+---@mod olddirs-example-mappings EXAMPLE MAPPINGS
+---@brief [[
+---Default settings ~
+--->lua
+---  local telescope = require('telescope')
+---
+---  vim.keymap.set('n', '<leader>od', telescope.extensions.olddirs.picker)
+---<
+---
+---Overriding `selected_dir_callback` ~
+--->lua
+---  local telescope = require('telescope')
+---  local builtin = require('telescope.builtin')
+---
+---  -- Opens the Telescope find_files picker in the selected directory.
+---  vim.keymap.set('n', '<leader>ofd', function()
+---    telescope.extensions.olddirs.picker({
+---      selected_dir_callback = function(dir)
+---        builtin.find_files({
+---          prompt_title = 'Find Files in ' .. dir,
+---          cwd = dir,
+---        })
+---      end,
+---    })
+---  end)
+---  -- Opens the Telescope live_grep picker in the selected directory.
+---  vim.keymap.set('n', '<leader>ogd', function()
+---    telescope.extensions.olddirs.picker({
+---      selected_dir_callback = function(dir)
+---        builtin.live_grep({
+---          prompt_title = 'Live Grep in ' .. dir,
+---          search_dirs = { dir },
+---        })
+---      end,
+---    })
+---  end)
+---<
+---
+---Providing `attach_mappings` ~
+--->lua
+---  local telescope = require('telescope')
+---  local state = require('telescope.actions.state')
+---  local builtin = require('telescope.builtin')
+---
+---  -- <c-p> opens the Telescope find_files picker in the selected directory.
+---  -- <c-g> opens the Telescope live_grep picker in the selected directory.
+---  vim.keymap.set('n', '<leader>od', function()
+---    telescope.extensions.olddirs.picker({
+---      attach_mappings = function(_, map)
+---        map({ 'i', 'n' }, '<c-p>', function()
+---          local dir = state.get_selected_entry().value
+---          builtin.find_files({
+---            prompt_title = 'Find Files in ' .. dir,
+---            cwd = dir,
+---          })
+---        end)
+---        map({ 'i', 'n' }, '<c-g>', function()
+---          local dir = state.get_selected_entry().value
+---          builtin.live_grep({
+---            prompt_title = 'Live Grep in ' .. dir,
+---            search_dirs = { dir },
+---          })
+---        end)
+---        return true
+---      end,
+---    })
+---  end)
 ---<
 ---@brief ]]
 
