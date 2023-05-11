@@ -1,15 +1,15 @@
 *olddirs.nvim*
 olddirs.nvim is like |:oldfiles|, but for directories.
 
-================================================================================
+==============================================================================
 Table of Contents                                             *olddirs-contents*
 
-INTRODUCTION·····················································|olddirs-intro|
-OLDDIRS································································|olddirs|
-TELESCOPE····················································|olddirs-telescope|
-EXAMPLE MAPPINGS······································|olddirs-example-mappings|
+INTRODUCTION ··················································· |olddirs-intro|
+OLDDIRS ······························································ |olddirs|
+TELESCOPE ·················································· |olddirs-telescope|
+EXAMPLE MAPPINGS ···································· |olddirs-example-mappings|
 
-================================================================================
+==============================================================================
 INTRODUCTION                                                     *olddirs-intro*
 
 olddirs.nvim provides |autocommand|s which store the current directory in an
@@ -17,14 +17,15 @@ olddirs file when Neovim starts or the directory is changed with |:cd|,
 |:lcd|, or |:tcd|. The old directories can be retrieved as a list of strings
 or through a |telescope.nvim| picker.
 
-================================================================================
+==============================================================================
 OLDDIRS                                                                *olddirs*
 
 OlddirsConfig                                                    *OlddirsConfig*
 
     Fields: ~
-        {file} (string) File to store the old directories in.
-        {limit} (number) Max number of directories to store in the olddirs file.
+        {file}   (string)  File to store the old directories in.
+	{limit}  (number)  Max number of directories to store in the olddirs
+	                   file.
 
 
 olddirs.setup({opts})                                            *olddirs.setup*
@@ -33,7 +34,7 @@ olddirs.setup({opts})                                            *olddirs.setup*
     below.
 
     Parameters: ~
-        {opts} (OlddirsConfig)
+        {opts}  (OlddirsConfig)
 
     Usage: ~
 >lua
@@ -50,7 +51,7 @@ olddirs.get()                                                      *olddirs.get*
     empty table.
 
     Returns: ~
-        (string[]) directories in most recently used order
+        (string[])  directories in most recently used order
 
     Usage: ~
 >lua
@@ -59,7 +60,7 @@ olddirs.get()                                                      *olddirs.get*
 <
 
 
-================================================================================
+==============================================================================
 TELESCOPE                                                    *olddirs-telescope*
 
 Old directories can also be accessed through the |telescope.nvim| picker. To
@@ -110,7 +111,7 @@ You can also provide any generic picker config in this section. For example:
   })
 <
 
-================================================================================
+==============================================================================
 EXAMPLE MAPPINGS                                      *olddirs-example-mappings*
 
 Default settings ~
