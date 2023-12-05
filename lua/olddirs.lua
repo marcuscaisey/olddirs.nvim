@@ -52,7 +52,9 @@ olddirs.get = function()
   end
   local dirs = {}
   for line in f:lines() do
-    table.insert(dirs, line)
+    if vim.uv.fs_stat(line) then
+      table.insert(dirs, line)
+    end
   end
   f:close()
   return dirs
