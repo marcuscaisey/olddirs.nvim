@@ -16,15 +16,26 @@ local picker = function(opts)
 
   local cwd = vim.fn.getcwd()
 
+  local dirs = {}
+  for _, dir in ipairs(olddirs.get()) do
+    if dir == cwd then
+      goto continue
+    end
+    if opts.cwd_only and not vim.fs.relpath(cwd, dir) then
+      goto continue
+    end
+    table.insert(dirs, dir)
+    ::continue::
+  end
+
   pickers
     .new(opts, {
       prompt_title = 'Olddirs',
       finder = finders.new_table({
-        results = olddirs.get(),
+        results = dirs,
         entry_maker = opts.entry_maker or function(line)
           return {
             value = line,
-            valid = line ~= cwd,
             ordinal = line,
             display = function(entry)
               return utils.transform_path(opts, entry.value)

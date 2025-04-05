@@ -79,12 +79,12 @@ local olddirs = require('olddirs')
 
 The old directories can also be accessed using the Telescope picker
 `telescope.extensions.olddirs.picker({opts})`. `{opts}` can include regular Telescope options like
-`layout_config`, `attach_mappings`, and `path_display` as well as the olddirs.nvim specific option
-`selected_dir_callback`:
+`layout_config`, `attach_mappings`, and `path_display` as well as the olddirs.nvim specific options:
 
 | Key                     | Type          | Description                                                    |
 | ----------------------- | ------------- | -------------------------------------------------------------- |
 | `selected_dir_callback` | `func({dir})` | The function which will be called with the selected directory. |
+| `cwd_only`              | `boolean`     | Only show directories in the current working directory.        |
 
 ### Example mappings
 
@@ -197,7 +197,7 @@ telescope.setup({
   extensions = {
     olddirs = {
       selected_dir_callback = vim.cmd.lcd,
-      ...
+      cwd_only = false,
     },
   },
 })
