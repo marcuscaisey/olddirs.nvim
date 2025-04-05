@@ -84,9 +84,10 @@ end
 ---    },
 ---  })
 ---<
----* `selected_dir_callback({dir})` is the function which will be called with the selected
----directory.
----* `cwd_only` indicates whether to only show directories in the current working directory.
+---* `selected_dir_callback({dir})` is the function which will be called with the
+---  selected directory.
+---* `cwd_only` indicates whether to only show directories in the current working
+---  directory.
 ---
 ---The above configuration is the default, so if you're happy with it then
 ---there's no need to include it in a call to `telescope.setup({opts})`.
