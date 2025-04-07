@@ -16,16 +16,16 @@ local picker = function(opts)
 
   local cwd = vim.fn.getcwd()
 
-  local dirs = {}
-  for _, dir in ipairs(olddirs.get()) do
-    if dir == cwd then
-      goto continue
+  local dirs = olddirs.get()
+  if opts.git_repo_only then
+    local git_path = vim.fs.find('.git', { upward = true })[1]
+    if git_path then
+      local repo_root = vim.fs.dirname(git_path)
+      dirs = vim.tbl_filter(function(dir)
+        print(repo_root, dir, vim.fs.relpath(repo_root, dir))
+        return vim.fs.relpath(repo_root, dir) ~= nil
+      end, dirs)
     end
-    if opts.cwd_only and not vim.fs.relpath(cwd, dir) then
-      goto continue
-    end
-    table.insert(dirs, dir)
-    ::continue::
   end
 
   pickers
@@ -36,6 +36,7 @@ local picker = function(opts)
         entry_maker = opts.entry_maker or function(line)
           return {
             value = line,
+            valid = line ~= cwd,
             ordinal = line,
             display = function(entry)
               return utils.transform_path(opts, entry.value)
