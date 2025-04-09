@@ -22,7 +22,6 @@ local picker = function(opts)
     if git_path then
       local repo_root = vim.fs.dirname(git_path)
       dirs = vim.tbl_filter(function(dir)
-        print(repo_root, dir, vim.fs.relpath(repo_root, dir))
         return vim.fs.relpath(repo_root, dir) ~= nil
       end, dirs)
     end
