@@ -60,6 +60,82 @@ olddirs.get = function()
   return dirs
 end
 
+---@private
+---@class olddirs.FzfPickerConfig: fzf-lua.config.Base
+---@field selected_dir_callback fun(string)
+---@field git_repo_only boolean
+
+---@class olddirs.FzfPickerOpts: olddirs.FzfPickerConfig
+---@field selected_dir_callback? fun(string) The function which will be called with the selected directory.
+---@field git_repo_only? boolean Only show directories in the current git repository.
+
+---@param opts olddirs.FzfPickerOpts?
+function olddirs.fzf_picker(opts)
+  local fzf = require('fzf-lua')
+  local actions = require('fzf-lua.actions')
+  local config = require('fzf-lua.config')
+  local make_entry = require('fzf-lua.make_entry')
+
+  if not fzf.defaults.olddirs then
+    fzf.defaults.olddirs = {
+      selected_dir_callback = vim.cmd.lcd,
+      git_repo_only = false,
+    }
+  end
+
+  opts = opts or {}
+  vim.validate('opts.selected_dir_callback', opts.selected_dir_callback, 'function', true)
+  vim.validate('opts.git_repo_only', opts.git_repo_only, 'boolean', true)
+
+  opts = config.normalize_opts(opts, 'olddirs')
+  opts = vim.tbl_deep_extend('keep', opts, {
+    winopts = {
+      title = ' Olddirs ' .. (opts.git_repo_only and '(git repo only) ' or '(all) '),
+    },
+    actions = {
+      ['enter'] = {
+        fn = function(dir)
+          opts.selected_dir_callback(dir)
+        end,
+        desc = 'select-dir',
+      },
+      ['alt-g'] = {
+        fn = function(_, opts)
+          actions.toggle_opt(opts, 'git_repo_only')
+        end,
+        desc = 'toggle-git-repo-only',
+        reuse = true,
+      },
+    },
+  })
+
+  ---@diagnostic disable-next-line: cast-type-mismatch
+  ---@cast opts olddirs.FzfPickerConfig
+
+  local dirs = vim.iter(olddirs.get())
+
+  local cwd = vim.fn.getcwd()
+  dirs:filter(function(dir)
+    return dir ~= cwd
+  end)
+
+  if opts.git_repo_only then
+    local git_path = vim.fs.find('.git', { upward = true })[1]
+    if git_path then
+      local repo_root = vim.fs.dirname(git_path)
+      dirs:filter(function(dir)
+        return vim.fs.relpath(repo_root, dir) ~= nil
+      end)
+    end
+  end
+
+  dirs:map(function(dir)
+    return make_entry.file(dir, opts)
+  end)
+
+  fzf.fzf_exec(dirs:totable(), opts)
+end
+
 ---@mod olddirs-telescope TELESCOPE
 ---@brief [[
 ---Old directories can also be accessed through the |telescope.nvim| picker. To
