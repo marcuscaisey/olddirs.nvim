@@ -89,9 +89,6 @@ function olddirs.fzf_picker(opts)
 
   opts = config.normalize_opts(opts, 'olddirs')
   opts = vim.tbl_deep_extend('keep', opts, {
-    winopts = {
-      title = ' Olddirs ' .. (opts.git_repo_only and '(git repo only) ' or '(all) '),
-    },
     actions = {
       ['enter'] = {
         fn = function(dir)
